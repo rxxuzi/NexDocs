@@ -1,0 +1,118 @@
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, table, th, td, tr, figure {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    vertical-align: baseline;
+}
+body {
+    font-size: 18px;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+a:hover {
+    color: #0056b3;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: bold;
+}
+h1 {
+    font-size: 2.25em;
+}
+h2 {
+    font-size: 1.75em;
+}
+h3 {
+    font-size: 1.5em;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+    font-size: 0.875em;
+}
+ul, ol {
+    margin-bottom: 16px;
+    padding-left: 40px;
+}
+li {
+    margin-bottom: 8px;
+}
+blockquote {
+    margin: 20px 0;
+    padding: 10px 20px;
+    border-left: 5px solid #007BFF;
+    background-color: #e9ecef;
+}
+pre {
+    padding: 12px;
+    background-color: #e9ecef;
+    overflow-x: auto;
+    border-radius: 3px;
+    margin-bottom: 16px;
+}
+code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #e9ecef;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    border: 1px solid #dee2e6;
+}
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    transition: background-color 0.3s;
+}
+thead {
+    color: whitesmoke;
+    background-color: #333;
+}
+thead th {
+    color: #ffffff;
+    font-weight: bold;
+}
+tbody tr:hover {
+    background-color: #e2e6ea;
+}
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+figure {
+    margin: 16px 0;
+}
+figcaption {
+    font-style: italic;
+    text-align: center;
+    margin-top: 8px;
+}
+section{
+    padding: 10px;
+}
+code {
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+    background-color: #e9ecef;
+    padding: 2px 4px;
+    border-radius: 3px;
+}

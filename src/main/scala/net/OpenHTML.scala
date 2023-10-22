@@ -1,22 +1,23 @@
 package net
 
+import nex.NexHTML
+
 import java.io._
 import java.net.{HttpURLConnection, URL}
 import scala.io.Source
 
 
 class OpenHTML(val url: String){
-
   private val OUTPUT_DIR = "./output/"
-  private val OUTPUT_FILE = "index.html"
   private var HTML : String = ""
-  def html: String ={
+
+  def html: NexHTML ={
     val url = new URL(this.url)
     HTML = Source.fromInputStream(url.openStream()).mkString
-    HTML
+    new NexHTML(HTML)
   }
 
-  def save(): Unit = {
+  def save(filename: String): Unit = {
     try {
       val url = new URL(this.url)
       val openConnection = url.openConnection.asInstanceOf[HttpURLConnection]
@@ -31,7 +32,7 @@ class OpenHTML(val url: String){
       // Input Stream
       val dataInStream = new DataInputStream(openConnection.getInputStream)
       // Output Stream
-      val dataOutStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OUTPUT_DIR+OUTPUT_FILE)))
+      val dataOutStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OUTPUT_DIR+filename)))
       // Read Data
       val b = new Array[Byte](4096)
       var readByte = 0

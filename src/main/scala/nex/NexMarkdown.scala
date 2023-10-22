@@ -26,8 +26,23 @@ class NexMarkdown (private val source: String) extends Dox(source) {
   }
 
   def toHTML : NexHTML = {
-    val html = convertHTMLString(source)
-    new NexHTML(html)
+    val convertedHtmlContent = convertHTMLString(source)
+
+    val fullHtml =
+      s"""
+         |<html>
+         |<head>
+         |    <meta charset="utf-8" />
+         |    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+         |    <meta name="viewport" content="width=device-width, initial-scale=1" />
+         |</head>
+         |<body>
+         |$convertedHtmlContent
+         |</body>
+         |</html>
+        """.stripMargin
+
+    new NexHTML(fullHtml)
   }
 
 }

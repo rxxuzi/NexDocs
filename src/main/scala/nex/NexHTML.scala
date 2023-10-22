@@ -3,17 +3,29 @@ package nex
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Element, Node, TextNode}
 
+import scala.io.Source
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 
 class NexHTML(private val source: String) extends Dox(source) {
   override val EXT: String = ".html"
-
+  val css : String = "stylesheet/nex.css"
   def toMarkdown : NexMarkdown = {
     val document = Jsoup.parse(source)
     document.select("style, script").remove()
     val md = NexHTML.convertNode(document.body())
     new NexMarkdown(md)
+  }
+
+  def toPdf : NexPdf = {
+    new NexPdf(source)
+  }
+
+  // CSSをHTMLに適用するメソッド
+  def applyStyles(): String = {
+    val cssContent = Source.fromResource(css).getLines().mkString("\n")
+    val styledHtml = source.replace("</head>", s"<style>\n$cssContent\n</style>\n</head>")
+    styledHtml
   }
 
   def getBody : String = {
@@ -44,7 +56,7 @@ object NexHTML {
       case "blockquote" => s"> ${e.html()}\n\n"
       case "hr" => s"\n---\n\n"
 
-      case "pre" => {
+      case "pre" =>
         val code = e.selectFirst("code")
         if (code != null) {
           val lines = code.wholeText.split("\n")
@@ -56,7 +68,6 @@ object NexHTML {
         } else {
           s"```\n${e.text()}\n```\n"
         }
-      }
 
       case "li" => e.parent().tagName() match {
         case "ol" => s"1. ${e.html()}\n"
@@ -66,7 +77,7 @@ object NexHTML {
 
       case "p" => s"${e.html()}\n\n"
 
-      case "table" => {
+      case "table" =>
         val headers = e.selectFirst("thead").select("tr").select("td, th").toArray.map {
           case cell: Element => cell.html()
         }.mkString("|", "|", "|")
@@ -80,7 +91,6 @@ object NexHTML {
         }.mkString("\n")
 
         s"\n$headers\n$separator\n$rows\n"
-      }
 
       case _ => e.children().asScala.map(convertNode).mkString
     }
