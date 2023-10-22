@@ -7,6 +7,7 @@ import scala.reflect.io.File
 abstract class Dox(private val source: String) {
   val PATH = "./output/"
   val EXT = ".dox"
+  val css : String = "stylesheet/nex.css"
   def getSource: String = source
   def getLines: stream.Stream[String] = source.lines
   def getLinesIterator: Iterator[String] = source.linesIterator

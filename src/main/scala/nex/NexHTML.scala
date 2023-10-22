@@ -3,13 +3,14 @@ package nex
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Element, Node, TextNode}
 
+import javax.swing.text.html.CSS
 import scala.io.Source
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 
-class NexHTML(private val source: String) extends Dox(source) {
+class NexHTML(private var source: String) extends Dox(source) {
   override val EXT: String = ".html"
-  val css : String = "stylesheet/nex.css"
+
   def toMarkdown : NexMarkdown = {
     val document = Jsoup.parse(source)
     document.select("style, script").remove()
@@ -22,11 +23,13 @@ class NexHTML(private val source: String) extends Dox(source) {
   }
 
   // CSSをHTMLに適用するメソッド
-  def applyStyles(): String = {
+  def applyStyles(): Unit = {
     val cssContent = Source.fromResource(css).getLines().mkString("\n")
+    println(cssContent)
     val styledHtml = source.replace("</head>", s"<style>\n$cssContent\n</style>\n</head>")
-    styledHtml
+    source = styledHtml
   }
+
 
   def getBody : String = {
     val document = Jsoup.parse(source)

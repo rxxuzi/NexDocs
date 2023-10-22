@@ -4,6 +4,8 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.MutableDataSet
 
+import scala.io.Source
+
 class NexMarkdown (private val source: String) extends Dox(source) {
   override val EXT: String = ".md"
 
@@ -42,7 +44,14 @@ class NexMarkdown (private val source: String) extends Dox(source) {
          |</html>
         """.stripMargin
 
-    new NexHTML(fullHtml)
+    new NexHTML(addStyles(fullHtml))
+  }
+
+  // CSSをHTMLに適用するメソッド
+  def addStyles(html: String): String = {
+    val cssContent = Source.fromResource(css).getLines().mkString
+    val styledHtml = html.replace("</head>", s"<style>\n$cssContent\n</style>\n</head>")
+    styledHtml
   }
 
 }

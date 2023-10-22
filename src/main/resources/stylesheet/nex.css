@@ -1,4 +1,4 @@
-body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, table, th, td, tr, figure {
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, table, th, td, tr, figure {
     margin: 0;
     padding: 0;
     border: 0;
@@ -8,10 +8,9 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, table, th, td, tr,
     vertical-align: baseline;
 }
 body {
-    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
     color: #333;
-    background-color: #f5f5f5;
-    padding: 20px;
 }
 a {
     color: #007BFF;
