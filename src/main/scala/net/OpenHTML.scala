@@ -11,10 +11,13 @@ class OpenHTML(val url: String){
   private val OUTPUT_DIR = "./output/"
   private var HTML : String = ""
 
-  def html: NexHTML ={
+  def rawHtml : String = {
     val url = new URL(this.url)
     HTML = Source.fromInputStream(url.openStream()).mkString
-    new NexHTML(HTML)
+    HTML
+  }
+  def html: NexHTML ={
+    new NexHTML(rawHtml)
   }
 
   def save(filename: String): Unit = {
@@ -52,5 +55,14 @@ class OpenHTML(val url: String){
         println(e.getMessage)
         e.printStackTrace()
     }
+  }
+}
+
+object OpenHTML{
+  def apply(url: String): OpenHTML = new OpenHTML(url)
+  def apply(url: String, filename: String): OpenHTML = {
+    val html = OpenHTML(url)
+    html.save(filename)
+    html
   }
 }
