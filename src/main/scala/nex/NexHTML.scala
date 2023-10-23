@@ -1,9 +1,11 @@
 package nex
 
+import net.OpenCSS
+import nex.NexXHTML.escapeUnescapedAmpersands
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document.OutputSettings
 import org.jsoup.nodes.{Element, Node, TextNode}
 
-import javax.swing.text.html.CSS
 import scala.io.Source
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
@@ -19,23 +21,87 @@ class NexHTML(private var source: String) extends Dox(source) {
   }
 
   def toPdf : NexPdf = {
-    new NexPdf(source)
+    val xhtml = toXHTML
+    new NexPdf(xhtml.getSource)
+  }
+
+  def toXHTML: NexXHTML = {
+    // Embed the external CSS
+    var processedHtml = embedExternalCSS()
+    processedHtml = escapeUnescapedAmpersands(processedHtml)
+    processedHtml = removeDuplicateRoleAttributes(processedHtml)
+
+    val doc = Jsoup.parse(processedHtml)
+    doc.outputSettings().syntax(OutputSettings.Syntax.xml)
+    new NexXHTML(doc.html())
+  }
+
+  def toPlainText : NexPlain = {
+    val plainText = getRawDocument
+    new NexPlain(plainText)
   }
 
   // CSSをHTMLに適用するメソッド
   def applyStyles(): Unit = {
-    val cssContent = Source.fromResource(css).getLines().mkString("\n")
-    println(cssContent)
+    val cssContent = Source.fromResource(css).getLines()
     val styledHtml = source.replace("</head>", s"<style>\n$cssContent\n</style>\n</head>")
     source = styledHtml
   }
 
-
-  def getBody : String = {
+  def getRawDocument : String = {
     val document = Jsoup.parse(source)
     document.select("style, script").remove()
     NexHTML.convertNode(document.body())
   }
+
+  def removeJavaScript(): NexHTML = {
+    val document = Jsoup.parse(source)
+    document.select("script").remove()
+    source = document.html()
+    new NexHTML(source)
+  }
+
+  def removeAtag(inputHtml : String): String = {
+    val document = Jsoup.parse(inputHtml)
+    document.select("a").remove()
+    document.html()
+  }
+
+  def removeDuplicateRoleAttributes(inputHtml: String): String = {
+    val pattern = "(<form[^>]*?role=[^>]*?)role=".r
+    pattern.replaceAllIn(inputHtml, m => m.group(1))
+  }
+
+
+  def embedExternalCSS(): String = {
+    val doc = Jsoup.parse(source)
+    val linkElements = doc.select("link[rel=stylesheet][href]")
+
+    linkElements.forEach { linkElement: Element =>
+      val cssURL = linkElement.attr("abs:href") // Convert relative URL to absolute URL
+      val cssContent = OpenCSS.fetchCSSFromURL(cssURL)
+
+      if (cssContent.nonEmpty) {
+        // Create a new <style> element and set its content to the fetched CSS only if it's non-empty
+        val styleElement = doc.createElement("style")
+        styleElement.appendText(cssContent)
+
+        // Add the new <style> element to the <head>
+        doc.head().appendChild(styleElement)
+      }
+
+      // Remove the original <link> element
+      linkElement.remove()
+    }
+
+    doc.outerHtml()
+  }
+
+  def getTitle: String = {
+    val doc = Jsoup.parse(source)
+    doc.title()
+  }
+
 }
 
 object NexHTML {
