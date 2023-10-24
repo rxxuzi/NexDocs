@@ -1,5 +1,6 @@
 package nex
 
+import nex.Dox._
 import net.OpenCSS
 import nex.NexXHTML.escapeUnescapedAmpersands
 import org.jsoup.Jsoup
@@ -61,19 +62,25 @@ class NexHTML(private var source: String) extends Dox(source) {
     new NexHTML(source)
   }
 
-  def removeAtag(inputHtml : String): String = {
+  def removeTag(inputHtml : String , tagName : String): String = {
     val document = Jsoup.parse(inputHtml)
-    document.select("a").remove()
+    document.select(tagName).remove()
     document.html()
   }
 
-  def removeDuplicateRoleAttributes(inputHtml: String): String = {
+  def removeByClassName(className : String): NexHTML = {
+    val document = Jsoup.parse(source)
+    document.select(s".$className").remove()
+    document.html().toHTML
+  }
+
+  private def removeDuplicateRoleAttributes(inputHtml: String): String = {
     val pattern = "(<form[^>]*?role=[^>]*?)role=".r
     pattern.replaceAllIn(inputHtml, m => m.group(1))
   }
 
 
-  def embedExternalCSS(): String = {
+  private def embedExternalCSS(): String = {
     val doc = Jsoup.parse(source)
     val linkElements = doc.select("link[rel=stylesheet][href]")
 
@@ -147,19 +154,40 @@ object NexHTML {
       case "p" => s"${e.html()}\n\n"
 
       case "table" =>
-        val headers = e.selectFirst("thead").select("tr").select("td, th").toArray.map {
-          case cell: Element => cell.html()
-        }.mkString("|", "|", "|")
-
-        val separator = e.selectFirst("thead").select("tr").select("td, th").toArray.map(_ => ":---:").mkString("|", "|", "|")
-
-        val rows = e.selectFirst("tbody").select("tr").toArray.map {
-          case row: Element => row.select("td, th").toArray.map {
+        val thead = e.selectFirst("thead")
+        if (thead != null) {
+          val headers = thead.select("tr").select("td, th").toArray.map {
             case cell: Element => cell.html()
           }.mkString("|", "|", "|")
-        }.mkString("\n")
 
-        s"\n$headers\n$separator\n$rows\n"
+          val separator = e.selectFirst("thead").select("tr").select("td, th").toArray.map(_ => ":---:").mkString("|", "|", "|")
+
+          val rows = e.selectFirst("tbody").select("tr").toArray.map {
+            case row: Element => row.select("td, th").toArray.map {
+              case cell: Element => cell.html()
+            }.mkString("|", "|", "|")
+          }.mkString("\n")
+
+          s"\n$headers\n$separator\n$rows\n"
+        } else {
+          // theadがnullの場合
+          val allRows = e.select("tr").toArray
+          val firstRow = allRows(0).asInstanceOf[Element]
+          val headers = firstRow.select("td, th").toArray.map {
+            case cell: Element => cell.html()
+          }.mkString("|", "|", "|")
+
+          val separator = firstRow.select("td, th").toArray.map(_ => ":---:").mkString("|", "|", "|")
+
+          val rows = allRows.slice(1, allRows.length).map {
+            case row: Element => row.select("td, th").toArray.map {
+              case cell: Element => cell.html()
+            }.mkString("|", "|", "|")
+          }.mkString("\n")
+
+          s"\n$headers\n$separator\n$rows\n"
+        }
+
 
       case _ => e.children().asScala.map(convertNode).mkString
     }
