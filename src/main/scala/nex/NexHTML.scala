@@ -112,6 +112,9 @@ class NexHTML(private var source: String) extends Dox(source) {
 }
 
 object NexHTML {
+
+  def apply (source: String): NexHTML = new NexHTML(source)
+
   def convertNode(node: Node): String = node match {
     case textNode: TextNode => textNode.text()
     case e: Element => e.tagName() match {

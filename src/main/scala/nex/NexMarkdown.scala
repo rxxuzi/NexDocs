@@ -55,3 +55,7 @@ class NexMarkdown (private val source: String) extends Dox(source) {
   }
 
 }
+
+object NexMarkdown {
+  def apply(source: String) = new NexMarkdown(source)
+}

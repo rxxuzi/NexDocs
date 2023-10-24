@@ -31,3 +31,7 @@ class NexPdf(private val source: String) extends Dox(source) {
   }
 }
 
+object NexPdf {
+  def apply(source: String) = new NexPdf(source)
+}
+
