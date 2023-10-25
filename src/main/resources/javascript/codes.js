@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Get all <code> elements
-    var codeElements = document.querySelectorAll('code');
+    var codeElements = document.querySelectorAll('pre > code');
 
     codeElements.forEach(function(codeElem) {
-        var language = codeElem.className.replace("language-", ""); // Remove the "language-" prefix
+        var languageClass = codeElem.className.replace("language-", ""); // Remove the "language-" prefix
+        codeElem.className = languageClass + " hljs"; // Add "hljs" class
+    });
+
+    codeElements.forEach(function(codeElem) {
+        var languageClass = codeElem.className.replace("language-", ""); // Remove the "language-" prefix
 
         // Create the new HTML structure
         var container = document.createElement('div');
@@ -15,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var langLabel = document.createElement('span');
         langLabel.className = 'language-label';
-        langLabel.textContent = language;
+        langLabel.textContent = languageClass.replace("hljs", "").trim();
         header.appendChild(langLabel);
 
         var copyBtn = document.createElement('button');
@@ -36,9 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-
-            alert('Code copied to clipboard!');
+            copyBtn.textContent = 'copied';
+            // alert('Code copied to clipboard!');
         });
     });
+    hljs.highlightAll();
 });
-

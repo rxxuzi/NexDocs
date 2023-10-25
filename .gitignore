@@ -40,3 +40,4 @@ build/
 .idea/
 /output/
 /src/main/scala/sample/
+/src/main/resources/object/

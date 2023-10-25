@@ -34,7 +34,7 @@ This is **Sample** Markdown!!
 
 http://example.com/
 
-[example.com](http://example.com/)
+[Google](http://Google.com/)
 
 ## Quote
 
@@ -45,7 +45,24 @@ http://example.com/
 ~~~java
 public class Main {
   public static void main(String[] args) {
+    for (int i = 0; i < 10; i++) {
+      System.out.println(i);
+    }  
     System.out.println("Hello, world");
   }
 }
+~~~
+
+~~~scala
+object Main{
+  def main(args: Array[String]): Unit = {
+    for (i <- 0 until(10)) println(i)
+    println("Hello world!!")
+  }
+}
+~~~
+
+~~~python
+for i in range(10):
+  print(i)
 ~~~

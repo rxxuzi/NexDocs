@@ -9,8 +9,8 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, table, th, td, tr, figure {
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
-    color: #333;
+    font-size: 18px;
+    color: #111;
 }
 a {
     color: #007BFF;
@@ -56,13 +56,6 @@ blockquote {
     border-left: 5px solid #007BFF;
     background-color: #e9ecef;
 }
-/*pre {*/
-/*    padding: 12px;*/
-/*    background-color: #e9ecef;*/
-/*    overflow-x: auto;*/
-/*    border-radius: 3px;*/
-/*    margin-bottom: 16px;*/
-/*}*/
 code {
     font-family: 'Courier New', Courier, monospace;
     padding: 2px 4px;
