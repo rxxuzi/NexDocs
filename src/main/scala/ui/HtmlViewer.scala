@@ -6,9 +6,9 @@ import javafx.scene.{Scene, control, layout}
 import javafx.scene.web.WebView
 import javafx.stage.Stage
 import javafx.scene.layout.{HBox, VBox}
+import nex._
 
 import Console._
-
 import java.nio.file.{Files, Paths}
 
 class HtmlViewer(stage: Stage) {
@@ -37,7 +37,10 @@ class HtmlViewer(stage: Stage) {
   def loadHtmlFromResource(resourcePath: String): Unit = {
     val resourceUrl = getClass.getResource(resourcePath)
     if (resourceUrl != null) {
-      val content = new String(Files.readAllBytes(Paths.get(resourceUrl.toURI)))
+//      val content = new String(Files.readAllBytes(Paths.get(resourceUrl.toURI)))
+      val md = Dox.readFileAsString("Sample.md")
+      val content = NexMarkdown(md).toHTML.getSource
+      NexHTML(content).save("Used")
       webEngine.loadContent(content)
     } else {
       webEngine.loadContent("<h1>Error: Could not load resource</h1>")
