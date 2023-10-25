@@ -3,10 +3,11 @@ package nex
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.MutableDataSet
+import net.OpenCSS
 
 import scala.io.Source
 
-class NexMarkdown (private val source: String) extends Dox(source) {
+final class NexMarkdown (private val source: String) extends Dox(source) {
   override val EXT: String = ".md"
 
   /**
@@ -29,6 +30,7 @@ class NexMarkdown (private val source: String) extends Dox(source) {
 
   def toHTML : NexHTML = {
     val convertedHtmlContent = convertHTMLString(source)
+    val jsContent = Dox.readFileAsString("javascript/codes.js")
 
     val fullHtml =
       s"""
@@ -37,9 +39,15 @@ class NexMarkdown (private val source: String) extends Dox(source) {
          |    <meta charset="utf-8" />
          |    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
          |    <meta name="viewport" content="width=device-width, initial-scale=1" />
+         |    <link rel="stylesheet" href="${OpenCSS.DRACULA}">
+         |    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+         |    <script>hljs.highlightAll();</script>
          |</head>
          |<body>
          |$convertedHtmlContent
+         |<script>
+         |$jsContent
+         |</script>
          |</body>
          |</html>
         """.stripMargin

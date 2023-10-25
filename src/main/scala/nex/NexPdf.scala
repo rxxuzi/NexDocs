@@ -7,7 +7,7 @@ import java.io.{FileOutputStream, OutputStream}
 import com.lowagie.text.pdf.BaseFont
 import org.xhtmlrenderer.pdf.ITextRenderer
 
-class NexPdf(private val source: String) extends Dox(source) {
+final class NexPdf(private val source: String) extends Dox(source) {
   override val EXT: String = ".pdf"
 
   override def save(fileName: String): Unit = {

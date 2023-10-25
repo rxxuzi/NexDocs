@@ -66,8 +66,7 @@ object Dox{
     }
 
     def toHTML: NexHTML = new NexHTML(s)
-
-    def toMarkdown: NexHTML = new NexHTML(s)
+    def toMarkdown: NexMarkdown = new NexMarkdown(s)
   }
 }
 

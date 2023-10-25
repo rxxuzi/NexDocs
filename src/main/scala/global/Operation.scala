@@ -17,5 +17,15 @@ case object Operation {
       }
     }
   }
+
+  def loadFileContent(path: String): String = {
+    val source = scala.io.Source.fromFile(path)
+    try source.mkString finally source.close()
+  }
+
+  def loadFileContent(path: String, encoding: String): String = {
+    val source = scala.io.Source.fromFile(path, encoding)
+    try source.mkString finally source.close()
+  }
 }
 
