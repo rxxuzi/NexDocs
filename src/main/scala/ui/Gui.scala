@@ -8,8 +8,14 @@ object Gui {
   var ENLARGEABLE = true
   var TITLE = "NexDocs"
   val ICON_PATH = "/icon/NEXDOCS.png"
-  def main(args: Array[String]): Unit = {
-    Application.launch(classOf[HtmlViewerApp], args: _*)
+  var CUSUTOM_HTML = false
+  var URL = ""
+  def run(): Unit = {
+    Application.launch(classOf[HtmlViewerApp])
+  }
+  def run(url: String): Unit = {
+    URL = url
+    Application.launch(classOf[HtmlViewerApp])
   }
 }
 

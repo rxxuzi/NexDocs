@@ -1,11 +1,12 @@
 package ui
 
 import ui.Gui._
-import javafx.scene.image.Image
+import javafx.scene.image.{Image, ImageView}
 import javafx.scene.{Scene, control, layout}
 import javafx.scene.web.WebView
 import javafx.stage.Stage
 import javafx.scene.layout.{HBox, VBox}
+import javafx.scene.control.TextField
 import nex._
 
 import Console._
@@ -16,9 +17,19 @@ class HtmlViewer(stage: Stage) {
   private val webEngine = webView.getEngine
   private val backButton = new control.Button("Back")
   private val forwardButton = new control.Button("Forward")
-  private val toolbar = new HBox(10, backButton, forwardButton)
+  private val urlField = new TextField()
+  private val searchButton = new control.Button("search")
+
+  private val toolbar = new HBox(10, backButton, forwardButton, urlField, searchButton)
   private val layout = new VBox(10, toolbar, webView)
+
+  searchButton.setOnAction(_ => webEngine.load(urlField.getText))
+
+
+
   VBox.setVgrow(webView, javafx.scene.layout.Priority.ALWAYS)
+
+  urlField.setPrefWidth(250.0)
 
   backButton.setOnAction(_ => {
     val history = webEngine.getHistory
@@ -34,11 +45,14 @@ class HtmlViewer(stage: Stage) {
     }
   })
 
+  webEngine.locationProperty().addListener((_, _, newValue) => urlField.setText(newValue))
+
   def loadHtmlFromResource(resourcePath: String): Unit = {
     val resourceUrl = getClass.getResource(resourcePath)
     if (resourceUrl != null) {
-//      val content = new String(Files.readAllBytes(Paths.get(resourceUrl.toURI)))
-      val md = Dox.readFileAsString("Sample.md")
+      val md =
+        if (Gui.URL == "") Dox.readExternalFilesAsString("./README.md")
+        else Dox.readExternalFilesAsString(Gui.URL)
       val content = NexMarkdown(md).toHTML.getSource
       NexHTML(content).save("Used")
       webEngine.loadContent(content)
@@ -47,8 +61,9 @@ class HtmlViewer(stage: Stage) {
     }
   }
 
-  def show(): Unit = {
-    loadHtmlFromResource("/Sample.html")
+  def show(resourcePath : String = "/Sample.html"): Unit = {
+    println(GREEN + "Showing report at "+ resourcePath + RESET)
+    loadHtmlFromResource(resourcePath)
     try{
       val icon = new Image(getClass.getResourceAsStream(ICON_PATH))
       stage.getIcons.add(icon)
