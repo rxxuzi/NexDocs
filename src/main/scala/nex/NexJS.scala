@@ -34,4 +34,15 @@ object NexJS {
   def getScriptTags(usedLanguages: Set[String]): String = {
     usedLanguages.map(lang).mkString("\n")
   }
+
+  def main(args: Array[String]): Unit = {
+    val usedLanguages = Set(
+      "java" , "c" , "shell"
+    )
+
+    val tags = getScriptTags(usedLanguages)
+    println(tags)
+
+
+  }
 }

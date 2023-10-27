@@ -63,15 +63,15 @@ final class NexMarkdown (private val source: String) extends Dox(source) {
     usedLanguages
   }
 
-
   def toHTML : NexHTML = {
     val convertedHtmlContent = convertHTMLString(source)
+//    val convertedHtmlContent = extractUsedLanguages(source)
     val jsContent = Dox.readFileAsString("javascript/codes.js")
     val scriptTags = NexJS.getScriptTags(usedLanguages)
+    println("used" + usedLanguages.mkString)
+    println(scriptTags)
     val js = Seq(
       "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js\"></script>",
-      "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/shell.min.js\"></script>",
-      "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/c.min.js\"></script>",
       "<script>hljs.configure({noHighlightRe: /^$/});</script>",
       "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>",
       "<script type=\"text/x-mathjax-config\">\nMathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: \"none\" });\n</script>"
