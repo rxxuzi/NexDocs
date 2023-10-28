@@ -9,6 +9,7 @@ import java.nio.file.FileVisitOption._
 import java.nio.file.SimpleFileVisitor
 
 object Operation {
+  val OUTPUT_DIR = "./output"
   val host = 4L
   def rmdir(root: String): Unit = {
     val directoryPath = Paths.get(root)
