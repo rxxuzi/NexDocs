@@ -23,6 +23,14 @@ abstract class Dox(private val source: String) {
     file.writeAll(source)
   }
 
+  def saveF(path: String): Unit = {
+    val file: File = File(path)
+    if (!file.exists) {
+      file.createFile()
+    }
+    file.writeAll(source)
+  }
+
   override def toString: String = source + "\n"
 
 }

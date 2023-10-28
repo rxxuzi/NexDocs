@@ -17,6 +17,15 @@ final class NexPdf(private val source: String) extends Dox(source) {
       os.close()
   }
 
+  override def saveF(path: String): Unit = {
+      val renderer = convert(source.toHTML)
+      val os = new FileOutputStream(path)
+      renderer.createPDF(os)
+      os.close()
+  }
+
+
+
   private def convert(html: NexHTML): ITextRenderer = {
     val renderer = new ITextRenderer()
 
