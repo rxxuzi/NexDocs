@@ -64,6 +64,8 @@ class MarkdownApp extends Application {
     // レイアウトにツールバーを追加
     val mainLayout = new VBox()
     mainLayout.getChildren.addAll(toolBar, layout)
+    VBox.setVgrow(layout, Priority.ALWAYS)
+
 
     val scene = new Scene(mainLayout, 1200, 800)
 

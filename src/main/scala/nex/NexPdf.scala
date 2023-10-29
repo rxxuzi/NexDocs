@@ -24,8 +24,6 @@ final class NexPdf(private val source: String) extends Dox(source) {
       os.close()
   }
 
-
-
   private def convert(html: NexHTML): ITextRenderer = {
     val renderer = new ITextRenderer()
 
