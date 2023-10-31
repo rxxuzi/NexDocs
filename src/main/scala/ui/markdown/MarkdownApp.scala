@@ -33,11 +33,11 @@ class MarkdownApp extends Application {
     val toolBar = new ToolBar()
 
     // 「save as pdf」ボタンの作成
-    val saveButton = new Button("Save as PDF")
-    toolBar.getItems.add(saveButton)
+    val saveAsPdf = new Button("Save as PDF")
+    toolBar.getItems.add(saveAsPdf)
 
     // ボタンのイベントハンドラの設定
-    saveButton.setOnAction(_ => {
+    saveAsPdf.setOnAction(_ => {
       // ファイル名をユーザーに入力させるダイアログの表示
       val fileChooser = new FileChooser()
       fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"))
@@ -48,10 +48,23 @@ class MarkdownApp extends Application {
         val fileName = file.getAbsolutePath
         val content = markdownEditor.textArea.getText
         val html = NexMarkdown(content).toHTML
-        // HTML に変換して保存
-        html.save("test")
         // pdf に変換して保存
         html.toPdf.saveF(fileName)
+      }
+    })
+
+    val saveAsHtml = new Button("Save as HTML")
+    toolBar.getItems.add(saveAsHtml)
+    saveAsHtml.setOnAction(_ => {
+      val fileChooser = new FileChooser()
+      fileChooser.getExtensionFilters.add(new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"))
+      val file = fileChooser.showSaveDialog(primaryStage)
+      if (file != null) {
+        val fileName = file.getAbsolutePath
+        val content = markdownEditor.textArea.getText
+        val html = NexMarkdown(content).toHTML
+        html.saveF(fileName)
+        println(fileName)
       }
     })
 
