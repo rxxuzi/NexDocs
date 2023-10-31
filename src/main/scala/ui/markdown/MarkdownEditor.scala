@@ -1,4 +1,5 @@
-package ui
+package ui.markdown
+
 import javafx.scene.control.TextArea
 import javafx.scene.layout.{Priority, VBox}
 

@@ -1,14 +1,13 @@
-package ui
+package ui.markdown
 
 import javafx.application.Application
 import javafx.scene.Scene
+import javafx.scene.control.{Button, ToolBar}
 import javafx.scene.image.Image
 import javafx.scene.layout.{HBox, Priority, VBox}
-import javafx.stage.Stage
+import javafx.stage.{FileChooser, Stage}
+import nex.NexMarkdown
 import ui.Gui._
-import javafx.scene.control.{Button, ToolBar}
-import javafx.stage.FileChooser
-import nex.{NexHTML, NexMarkdown, NexPdf}
 
 import scala.Console.RED
 

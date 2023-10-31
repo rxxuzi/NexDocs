@@ -68,8 +68,6 @@ final class NexMarkdown (private val source: String) extends Dox(source) {
 //    val convertedHtmlContent = extractUsedLanguages(source)
     val jsContent = Dox.readFileAsString("javascript/codes.js")
     val scriptTags = NexJS.getScriptTags(usedLanguages)
-    println("used" + usedLanguages.mkString)
-    println(scriptTags)
     val js = Seq(
       "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js\"></script>",
       "<script>hljs.configure({noHighlightRe: /^$/});</script>",

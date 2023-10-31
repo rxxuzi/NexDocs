@@ -1,7 +1,8 @@
-package ui
-import javafx.scene.web.WebView
+package ui.markdown
+
 import javafx.scene.layout.{Priority, VBox}
-import nex.{NexHTML, NexMarkdown}
+import javafx.scene.web.WebView
+import nex.NexMarkdown
 
 class MarkdownViewer extends VBox {
   val webView = new WebView()

@@ -4,6 +4,7 @@ import global.Operation
 import javafx.application.Application
 import javafx.stage.Stage
 import net.OpenCSS
+import ui.markdown.MarkdownApp
 
 object Gui {
   var ENLARGEABLE = true
