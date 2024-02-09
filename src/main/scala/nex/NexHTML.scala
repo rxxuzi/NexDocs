@@ -115,7 +115,7 @@ object NexHTML {
 
   def apply (source: String): NexHTML = new NexHTML(source)
 
-  def convertNode(node: Node): String = node match {
+  private def convertNode(node: Node): String = node match {
     case textNode: TextNode => textNode.text()
     case e: Element => e.tagName() match {
       case "b" | "strong" => s"**${e.text()}**"

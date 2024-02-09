@@ -1,11 +1,10 @@
 package nex
 
-import Dox._
-import org.xhtmlrenderer.pdf.ITextRenderer
-import global.LogConfig
-import java.io.{FileOutputStream, OutputStream}
 import com.lowagie.text.pdf.BaseFont
+import nex.Dox._
 import org.xhtmlrenderer.pdf.ITextRenderer
+
+import java.io.FileOutputStream
 
 final class NexPdf(private val source: String) extends Dox(source) {
   override val EXT: String = ".pdf"
